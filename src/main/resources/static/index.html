@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
+</head>
+<body>
+<h1>PRIVET</h1>
+
+<p><button id="getUsers">List of Users</button></p>
+<p><button id="getRecipes">My recipes</button></p>
+
+<div>
+    <LABEL>Recipe adding</LABEL><br>
+    Title:
+    <input id="titleOfRecipe" type="text" name="title" >
+    <br>
+    Link:
+    <input id="linkOfRecipe" type="text" name="link">
+    <br>
+    <a id="addRecipe" href="#">Add recipe</a>
+
+</div>
+<script>
+
+$('#getUsers').click(function () {
+    $.ajax({
+        type:"GET",
+        url:"http://localhost:8090/getUsers",
+        success:function (data){
+            console.log(data);
+    }
+    })
+
+})
+
+$('#addRecipe').click(function () {
+    var titleOfRecipe = document.getElementById("titleOfRecipe").value;
+    var linkOfRecipe = document.getElementById("linkOfRecipe").value;
+    // var titleOfRecipe = $('#titleOfRecipe').value;
+    // var linkOfRecipe = $('#linkOfRecipe').value;
+    $.ajax({
+        type:"POST",
+        url:"http://localhost:8090/addRecipe",
+        data:{'title':titleOfRecipe, 'link':linkOfRecipe},
+        success:function (data){
+            console.log(data);
+            location.href="http://localhost:8090/";
+        },
+        error:function (e) {
+            location.href="http://localhost:8090/";
+        }
+    })
+
+})
+$('#getRecipes').click(function () {
+    $.ajax({
+        type:"GET",
+        url:"http://localhost:8090/getRecipes",
+        success:function (data){
+            console.log(data);
+        }
+    })
+})
+
+</script>
+</body>
+</html>
+
