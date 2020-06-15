@@ -40,6 +40,11 @@
             data:{'name':nameText , 'login':loginText,'password':passwordText},
             success:function (data){
                 console.log(data);
+                if(data.login===undefined){
+                    alert("Same login already exist")
+                }else {
+                    location.href='http://localhost:8090/login';
+                }
             }
         })
     })

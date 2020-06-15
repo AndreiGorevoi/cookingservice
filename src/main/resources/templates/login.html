@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,6 +12,9 @@
             <span class="login100-form-title">
 						Sign In
 					</span>
+            <div th:if="${error!=null}">
+                <span style="background-color: red"><strong>Incorrect login or password!</strong></span>
+            </div>
 
             <div data-validate="Please enter username">
                 <input type="text" name="username" placeholder="Username">

@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface RecipeDao extends JpaRepository<Recipe, Long> {
     @Query("from Recipe r where r.user.id=?1")
     List<Recipe> getRecipeByUserId(Long id);

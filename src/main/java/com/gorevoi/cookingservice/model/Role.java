@@ -4,9 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 @Data
 @Entity
@@ -17,7 +18,4 @@ public class Role extends BaseModel {
     @Enumerated(value = EnumType.STRING)
     private ERoles name;
 
-    @Column
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<UserOfService> listOfUsers;
 }

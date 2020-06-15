@@ -1,26 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script>
 </head>
 <body>
-<h1>PRIVET</h1>
+<h1 style="text-align: center;color: blue">Cooking service</h1>
+<div style="text-align: center">
+    <div th:if="${#session.getAttribute('att')}">
+        <span th:text="${#session.getAttribute('att')}">Test</span>
 
+    </div>
 <p><button id="getUsers">List of Users</button></p>
 <p><button id="getRecipes">My recipes</button></p>
 
-<div>
-    <LABEL>Recipe adding</LABEL><br>
-    Title:
-    <input id="titleOfRecipe" type="text" name="title" >
-    <br>
-    Link:
-    <input id="linkOfRecipe" type="text" name="link">
-    <br>
-    <a id="addRecipe" href="#">Add recipe</a>
+    <div>
+        <LABEL>Recipe adding</LABEL><br>
+        Title:
+        <input id="titleOfRecipe" type="text" name="title" >
+        <br>
+        Link:
+        <input id="linkOfRecipe" type="text" name="link">
+        <br>
+        <a id="addRecipe" href="#">Add recipe</a>
 
+    </div>
 </div>
 <script>
 

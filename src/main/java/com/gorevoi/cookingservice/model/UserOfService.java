@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.*;
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
 @Data
@@ -24,11 +26,8 @@ public class UserOfService extends BaseModel {
     private String password;
 
     @Column
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Role> rolesList;
 
-//    @Column
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private List<Recipe> recipeList;
 
 }

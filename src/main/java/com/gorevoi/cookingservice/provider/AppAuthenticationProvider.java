@@ -4,6 +4,7 @@ import com.gorevoi.cookingservice.dao.interfaces.RoleDao;
 import com.gorevoi.cookingservice.dao.interfaces.UserDao;
 import com.gorevoi.cookingservice.model.UserOfService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +14,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +49,11 @@ public class AppAuthenticationProvider implements AuthenticationProvider {
         }
         List<SimpleGrantedAuthority> authorityList = user.getRolesList().stream()
                 .map((it->new SimpleGrantedAuthority("ROLE_"+it.getName()))).collect(Collectors.toList());
+
+        //      Положил в сессию имя пользователя
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        HttpSession session = attr.getRequest().getSession(false);
+        session.setAttribute("att",user.getName());
 
         return new UsernamePasswordAuthenticationToken(user,null,authorityList);
     }

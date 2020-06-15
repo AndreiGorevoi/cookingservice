@@ -1,12 +1,11 @@
 package com.gorevoi.cookingservice.controller;
 
-import com.gorevoi.cookingservice.dao.interfaces.RecipeDao;
-import com.gorevoi.cookingservice.dao.interfaces.RoleDao;
-import com.gorevoi.cookingservice.dao.interfaces.UserDao;
 import com.gorevoi.cookingservice.model.Recipe;
 import com.gorevoi.cookingservice.model.UserOfService;
+import com.gorevoi.cookingservice.service.interfaces.RecipeService;
+import com.gorevoi.cookingservice.service.interfaces.RoleService;
+import com.gorevoi.cookingservice.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +14,16 @@ import java.util.List;
 
 @RestController
 public class NewMainController {
-    private final UserDao userDao;
-    private final RoleDao roleDao;
-    private final RecipeDao recipeDao;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final RecipeService recipeService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public NewMainController(UserDao userDao, RoleDao roleDao,
-                             RecipeDao recipeDao, PasswordEncoder passwordEncoder) {
-        this.userDao = userDao;
-        this.roleDao = roleDao;
-        this.recipeDao = recipeDao;
+    public NewMainController(UserService userService, RoleService roleService, RecipeService recipeService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
+        this.roleService = roleService;
+        this.recipeService = recipeService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -38,15 +36,14 @@ public class NewMainController {
         userOfService.setName(name);
         userOfService.setLogin(login);
         userOfService.setPassword(passwordEncoder.encode(password));
-        userOfService.setRolesList(roleDao.findRoleById());
-        return userDao.save(userOfService);
+        userOfService.setRolesList(roleService.findRoleById());
+        return userService.save(userOfService);
 
     }
 
     @GetMapping("/getUsers")
     public List<UserOfService> getUsers(){
-        SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDao.findAll();
+        return userService.findAll();
     }
 
 
@@ -59,15 +56,15 @@ public class NewMainController {
         Recipe recipe = new Recipe();
         recipe.setTitle(title);
         recipe.setLink(link);
-        recipe.setUser(userDao.getUserOfServiceByLogin(user.getLogin()));
-        return recipeDao.save(recipe);
+        recipe.setUser(userService.getUserOfServiceByLogin(user.getLogin()));
+        return recipeService.save(recipe);
 
     }
 
     @GetMapping("/getRecipes")
     public List<Recipe> getRecipes(){
-        return recipeDao.findAll();
-//        return recipeDao.getRecipeByUserId(1L);
+        UserOfService user= (UserOfService) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return recipeService.getRecipeByUserId(user.getId());
     }
 
     @ExceptionHandler(Exception.class)

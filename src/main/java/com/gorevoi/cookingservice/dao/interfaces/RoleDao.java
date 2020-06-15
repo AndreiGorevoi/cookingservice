@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
 public interface RoleDao extends JpaRepository<Role, Long> {
     @Query("from Role r where r.id=1L")
     List<Role> findRoleById();
