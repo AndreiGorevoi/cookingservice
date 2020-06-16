@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface RecipeDao extends JpaRepository<Recipe, Long> {
-    @Query("from Recipe r where r.user.id=?1")
+    @Query("from Recipe r where r.user.id = :id")
     List<Recipe> getRecipeByUserId(Long id);
 }

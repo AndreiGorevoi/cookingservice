@@ -1,10 +1,9 @@
-package com.gorevoi.cookingservice.provider;
+package com.gorevoi.cookingservice.configs.security.provider;
 
 import com.gorevoi.cookingservice.dao.interfaces.RoleDao;
-import com.gorevoi.cookingservice.dao.interfaces.UserDao;
-import com.gorevoi.cookingservice.model.UserOfService;
+import com.gorevoi.cookingservice.dao.interfaces.UserRepository;
+import com.gorevoi.cookingservice.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,35 +24,39 @@ import java.util.stream.Collectors;
 @Service
 public class AppAuthenticationProvider implements AuthenticationProvider {
 
-    private final UserDao userDao;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleDao roleDao;
 
     @Autowired
-    public AppAuthenticationProvider(UserDao userDao, PasswordEncoder passwordEncoder, RoleDao roleDao) {
-        this.userDao = userDao;
+    public AppAuthenticationProvider(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleDao roleDao) {
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleDao = roleDao;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        UserOfService user = userDao.getUserOfServiceByLogin(authentication.getName());
+        User user = userRepository.getUserOfServiceByLogin(authentication.getName());
         if(user==null){
             throw new UsernameNotFoundException("User not found");
         }
-        user.setRolesList(roleDao.findRoleById());
         String password = authentication.getCredentials().toString();
         if(!passwordEncoder.matches(password,user.getPassword())){
             throw new BadCredentialsException("Incorrect password");
         }
-        List<SimpleGrantedAuthority> authorityList = user.getRolesList().stream()
+        List<SimpleGrantedAuthority> authorityList = user.getRoles().stream()
                 .map((it->new SimpleGrantedAuthority("ROLE_"+it.getName()))).collect(Collectors.toList());
 
         //      Положил в сессию имя пользователя
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        HttpSession session = attr.getRequest().getSession(false);
-        session.setAttribute("att",user.getName());
+//        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+//        HttpSession session = attr.getRequest().getSession(false);
+//        session.setAttribute("att",user.getName());
+//
+//
+//        HttpServletRequest request = (HttpServletRequest) RequestContextHolder.getRequestAttributes();
+//        session = request.getSession();
+//        session.setAttribute("userId",user.getId());
 
         return new UsernamePasswordAuthenticationToken(user,null,authorityList);
     }

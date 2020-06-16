@@ -1,25 +1,23 @@
 package com.gorevoi.cookingservice.service.impl;
 
 import com.gorevoi.cookingservice.dao.interfaces.RecipeDao;
-import com.gorevoi.cookingservice.dao.interfaces.UserDao;
+import com.gorevoi.cookingservice.dao.interfaces.UserRepository;
 import com.gorevoi.cookingservice.model.Recipe;
 import com.gorevoi.cookingservice.service.interfaces.RecipeService;
-import com.gorevoi.cookingservice.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.List;
 @Service
 @Transactional
 public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeDao RECIPE_DAO;
-    private final UserDao USER_DAO;
+    private final UserRepository USER_DAO;
 
     @Autowired
-    public RecipeServiceImpl(RecipeDao recipe_dao, UserDao user_dao) {
+    public RecipeServiceImpl(RecipeDao recipe_dao, UserRepository user_dao) {
         RECIPE_DAO = recipe_dao;
         USER_DAO = user_dao;
     }

@@ -1,13 +1,15 @@
 package com.gorevoi.cookingservice.service.interfaces;
 
-import com.gorevoi.cookingservice.model.UserOfService;
+import com.gorevoi.cookingservice.model.User;
 
 import java.util.List;
 
 public interface UserService {
-    UserOfService getUserOfServiceByLogin(String login);
+    User getUserOfServiceByLogin(String login);
 
-    List<UserOfService> findAll();
+    List<User> findAll();
 
-    UserOfService save(UserOfService user);
+    User save(User user);
+
+    User findById(Long userId);
 }

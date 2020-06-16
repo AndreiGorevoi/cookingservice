@@ -1,7 +1,9 @@
 package com.gorevoi.cookingservice.controller;
 
+import com.gorevoi.cookingservice.dto.recipe.InfoRecipeDto;
+import com.gorevoi.cookingservice.dto.recipe.UpdateRecipeDto;
 import com.gorevoi.cookingservice.model.Recipe;
-import com.gorevoi.cookingservice.model.UserOfService;
+import com.gorevoi.cookingservice.model.User;
 import com.gorevoi.cookingservice.service.interfaces.RecipeService;
 import com.gorevoi.cookingservice.service.interfaces.RoleService;
 import com.gorevoi.cookingservice.service.interfaces.UserService;
@@ -10,7 +12,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class NewMainController {
@@ -28,43 +32,39 @@ public class NewMainController {
     }
 
     @PostMapping("/registration")
-    public UserOfService userRegistration(@RequestParam String name,
-                                         @RequestParam String login,
-                                         @RequestParam String password)
+    public User userRegistration(@RequestParam String name,
+                                 @RequestParam String login,
+                                 @RequestParam String password)
     {
-        UserOfService userOfService = new UserOfService();
-        userOfService.setName(name);
-        userOfService.setLogin(login);
-        userOfService.setPassword(passwordEncoder.encode(password));
-        userOfService.setRolesList(roleService.findRoleById());
-        return userService.save(userOfService);
+        User user = new User();
+        user.setName(name);
+        user.setLogin(login);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRoles(roleService.findRoleById());
+        return userService.save(user);
 
     }
 
     @GetMapping("/getUsers")
-    public List<UserOfService> getUsers(){
+    public List<User> getUsers(){
         return userService.findAll();
     }
 
-
     @PostMapping("/addRecipe")
-    public Recipe addRecipe(
-            @RequestParam(required = true) String title,
-            @RequestParam(required = true) String link)
+    public Recipe addRecipe(@RequestBody UpdateRecipeDto dto)
     {
-        UserOfService user= (UserOfService) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Recipe recipe = new Recipe();
-        recipe.setTitle(title);
-        recipe.setLink(link);
-        recipe.setUser(userService.getUserOfServiceByLogin(user.getLogin()));
+        Recipe recipe = Recipe.fromDto(dto);
+        User user = new User();
+        user.setId(dto.getUserId());
+        recipe.setUser(user);
         return recipeService.save(recipe);
-
     }
 
     @GetMapping("/getRecipes")
-    public List<Recipe> getRecipes(){
-        UserOfService user= (UserOfService) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return recipeService.getRecipeByUserId(user.getId());
+    public List<InfoRecipeDto> getRecipes(){
+        User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Recipe> recipes = recipeService.getRecipeByUserId(user.getId());
+        return recipes.stream().map(Recipe::fromRecipe).collect(Collectors.toList());
     }
 
     @ExceptionHandler(Exception.class)

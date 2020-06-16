@@ -14,7 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @ToString
-public class UserOfService extends BaseModel {
+public class User extends BaseModel {
 
     @Column
     private String name;
@@ -26,8 +26,8 @@ public class UserOfService extends BaseModel {
     private String password;
 
     @Column
-    @ManyToMany(fetch = FetchType.LAZY)
-    private List<Role> rolesList;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
 
 
 }

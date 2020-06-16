@@ -1,7 +1,7 @@
 package com.gorevoi.cookingservice.service.impl;
 
-import com.gorevoi.cookingservice.dao.interfaces.UserDao;
-import com.gorevoi.cookingservice.model.UserOfService;
+import com.gorevoi.cookingservice.dao.interfaces.UserRepository;
+import com.gorevoi.cookingservice.model.User;
 import com.gorevoi.cookingservice.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,29 +13,35 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private final UserDao USER_DAO;
+    private final UserRepository repo;
 
     @Autowired
-    public UserServiceImpl(UserDao user_dao) {
-        USER_DAO = user_dao;
+    public UserServiceImpl(UserRepository user_dao) {
+        repo = user_dao;
     }
 
     @Override
-    public UserOfService getUserOfServiceByLogin(String login) {
-        return USER_DAO.getUserOfServiceByLogin(login);
+    public User getUserOfServiceByLogin(String login) {
+        return repo.getUserOfServiceByLogin(login);
     }
 
     @Override
-    public List<UserOfService> findAll() {
-        return USER_DAO.findAll();
+    public List<User> findAll() {
+        return repo.findAll();
     }
 
     @Override
-    public UserOfService save(UserOfService user) {
-        UserOfService checkUser=USER_DAO.getUserOfServiceByLogin(user.getLogin());
+    public User save(User user) {
+        User checkUser= repo.getUserOfServiceByLogin(user.getLogin());
         if(checkUser==null){
-            return USER_DAO.save(user);
+            return repo.save(user);
         }
         return null;
+    }
+
+    @Override
+    public User findById(Long userId) {
+        return repo.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("User with id [%s] not exists", userId)));
     }
 }

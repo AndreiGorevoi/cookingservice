@@ -1,9 +1,13 @@
 package com.gorevoi.cookingservice.controller;
 
+import com.gorevoi.cookingservice.model.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class LoginController {
@@ -21,5 +25,12 @@ public class LoginController {
     @GetMapping(value = "/registration")
     public String getRegistration(){
         return "registration";
+    }
+
+    @GetMapping("/")
+    public String mainPage(HttpServletRequest request) {
+        User user= (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        request.getSession().setAttribute("userId", user.getId());
+        return "index";
     }
 }

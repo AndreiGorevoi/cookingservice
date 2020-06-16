@@ -1,6 +1,6 @@
-package com.gorevoi.cookingservice.configs;
+package com.gorevoi.cookingservice.configs.security;
 
-import com.gorevoi.cookingservice.provider.AppAuthenticationProvider;
+import com.gorevoi.cookingservice.configs.security.provider.AppAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,9 +42,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/*").authenticated()
         .and()
-        .formLogin().loginPage("/login").permitAll();
-
-        http.csrf().disable();
+            .formLogin().loginPage("/login").permitAll().defaultSuccessUrl("/")
+                .and().csrf().disable();
         http.headers().frameOptions().disable();
     }
 
