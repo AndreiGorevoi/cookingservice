@@ -1,4 +1,4 @@
-package com.gorevoi.cookingservice.service.interfaces;
+package com.gorevoi.cookingservice.service.recipe;
 
 import com.gorevoi.cookingservice.model.Recipe;
 

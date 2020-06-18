@@ -4,15 +4,14 @@ import com.gorevoi.cookingservice.dto.recipe.InfoRecipeDto;
 import com.gorevoi.cookingservice.dto.recipe.UpdateRecipeDto;
 import com.gorevoi.cookingservice.model.Recipe;
 import com.gorevoi.cookingservice.model.User;
-import com.gorevoi.cookingservice.service.interfaces.RecipeService;
-import com.gorevoi.cookingservice.service.interfaces.RoleService;
-import com.gorevoi.cookingservice.service.interfaces.UserService;
+import com.gorevoi.cookingservice.service.recipe.RecipeService;
+import com.gorevoi.cookingservice.service.RoleService;
+import com.gorevoi.cookingservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 

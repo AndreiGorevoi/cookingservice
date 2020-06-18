@@ -1,4 +1,4 @@
-package com.gorevoi.cookingservice.dao.interfaces;
+package com.gorevoi.cookingservice.repository;
 
 import com.gorevoi.cookingservice.model.ERoles;
 import com.gorevoi.cookingservice.model.Role;

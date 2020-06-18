@@ -1,4 +1,4 @@
-package com.gorevoi.cookingservice.service.interfaces;
+package com.gorevoi.cookingservice.service;
 
 import com.gorevoi.cookingservice.model.Role;
 

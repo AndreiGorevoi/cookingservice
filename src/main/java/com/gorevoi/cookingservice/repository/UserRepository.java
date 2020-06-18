@@ -1,4 +1,4 @@
-package com.gorevoi.cookingservice.dao.interfaces;
+package com.gorevoi.cookingservice.repository;
 
 import com.gorevoi.cookingservice.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

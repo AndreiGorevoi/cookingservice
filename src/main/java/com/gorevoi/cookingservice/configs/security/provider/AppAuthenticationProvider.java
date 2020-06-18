@@ -1,7 +1,7 @@
 package com.gorevoi.cookingservice.configs.security.provider;
 
-import com.gorevoi.cookingservice.dao.interfaces.RoleDao;
-import com.gorevoi.cookingservice.dao.interfaces.UserRepository;
+import com.gorevoi.cookingservice.repository.RoleDao;
+import com.gorevoi.cookingservice.repository.UserRepository;
 import com.gorevoi.cookingservice.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,26 +10,27 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class AppAuthenticationProvider implements AuthenticationProvider {
 
+    private final UserDetailsService userDetailsService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final RoleDao roleDao;
 
     @Autowired
-    public AppAuthenticationProvider(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleDao roleDao) {
+    public AppAuthenticationProvider(UserDetailsService userDetailsService,
+                                     UserRepository userRepository,
+                                     PasswordEncoder passwordEncoder, RoleDao roleDao) {
+        this.userDetailsService = userDetailsService;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleDao = roleDao;

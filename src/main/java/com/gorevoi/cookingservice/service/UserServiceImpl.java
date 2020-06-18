@@ -1,8 +1,7 @@
-package com.gorevoi.cookingservice.service.impl;
+package com.gorevoi.cookingservice.service;
 
-import com.gorevoi.cookingservice.dao.interfaces.UserRepository;
+import com.gorevoi.cookingservice.repository.UserRepository;
 import com.gorevoi.cookingservice.model.User;
-import com.gorevoi.cookingservice.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
