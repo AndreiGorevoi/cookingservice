@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<h1 style="text-align: center;color: blue">Cooking service</h1>
+<div style="text-align: center">
+
+<p><button id="getUsers">List of Users</button></p>
+<p><button id="getRecipes">My recipes</button>
+    <button id="createMenuButton">Create menu for my day</button></p>
+    <button id="deleteRecipeButton">DeleteRecipe</button></p>
+
+    <div>
+        <LABEL>Recipe adding</LABEL><br>
+        Title:
+        <input id="titleOfRecipe" type="text" name="title" >
+        <br>
+        Link:
+        <input id="linkOfRecipe" type="text" name="link">
+        <br>
+        Description:
+        <input id="recipeDescription" type="text" name="link">
+        <br>
+        IMG(url):
+        <input id="recipeImg" type="text" name="link">
+        <br>
+        <input id="userId" name="userId" type="hidden" th:value="${session.userId}">
+        Meal time(better time for the recipe):
+        <select id="recipeMealTime" name="mt" size="1">
+            <option>BREAKFAST</option>
+            <option>DINNER</option>
+            <option>SUPPER</option>
+        </select>
+        <br>
+
+        <a id="addRecipe" href="#">Add recipe</a>
+
+    </div>
+</div>
+</body>
+<script type="text/javascript" th:src="@{../inedx.js}"></script>
+</html>
+
