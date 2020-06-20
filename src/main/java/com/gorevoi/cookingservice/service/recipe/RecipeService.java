@@ -9,4 +9,5 @@ public interface RecipeService {
     Recipe save(Recipe recipe);
     List<Recipe> findAllRecipe();
     List<Recipe> getRecipeByUserId(Long id);
+    List<Recipe> getMenuForDay(Long id);
 }

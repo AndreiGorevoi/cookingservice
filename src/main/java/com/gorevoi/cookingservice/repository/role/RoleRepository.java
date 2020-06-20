@@ -1,4 +1,4 @@
-package com.gorevoi.cookingservice.dao.interfaces;
+package com.gorevoi.cookingservice.repository.role;
 
 import com.gorevoi.cookingservice.model.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -9,7 +9,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-public interface RoleDao extends JpaRepository<Role, Long> {
+public interface RoleRepository extends JpaRepository<Role, Long> {
     @Query("from Role r where r.id=1L")
     List<Role> findRoleById();
 }

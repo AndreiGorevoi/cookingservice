@@ -1,6 +1,6 @@
 package com.gorevoi.cookingservice.service.impl;
 
-import com.gorevoi.cookingservice.dao.interfaces.RoleDao;
+import com.gorevoi.cookingservice.repository.role.RoleRepository;
 import com.gorevoi.cookingservice.model.Role;
 import com.gorevoi.cookingservice.service.interfaces.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,20 +13,20 @@ import java.util.List;
 @Transactional
 public class RoleServiceImpl implements RoleService {
 
-    private final RoleDao roleDao;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public RoleServiceImpl(RoleDao roleDao) {
-        this.roleDao = roleDao;
+    public RoleServiceImpl(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public List<Role> findRoleById() {
-        return roleDao.findRoleById();
+        return roleRepository.findRoleById();
     }
 
     @Override
     public List<Role> findAllRoles() {
-        return roleDao.findAll();
+        return roleRepository.findAll();
     }
 }

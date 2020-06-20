@@ -5,10 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -23,6 +20,10 @@ public class Recipe extends BaseModel {
 
     @Column
     private String description;
+//Dinner, breakfast or supper?
+    @Column
+    @Enumerated(value = EnumType.STRING)
+    private ETypeOfMealTime mealTime;
 
     @Column
     private String img;
@@ -31,6 +32,6 @@ public class Recipe extends BaseModel {
 //    @JoinColumn(name = "user_id",insertable = false, updatable = false)
 //    @Setter(AccessLevel.PRIVATE)
     @JsonIgnore
-    private UserOfService user;
+    private User user;
 
 }
